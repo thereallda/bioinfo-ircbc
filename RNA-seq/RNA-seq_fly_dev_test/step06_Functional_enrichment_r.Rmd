@@ -1,0 +1,56 @@
+---
+title: "step06_Functional_enrichment_R"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Install Packages
+
+```{r,eval=FALSE}
+BiocManager::install('gprofiler2')
+```
+
+```{r}
+library(gprofiler2)
+```
+
+## Functional Enrichment
+
+```{r}
+# load DE results
+load('data/DE.RData')
+
+WP_high_genes <- subset(res_WPvL3_sig, log2FoldChange >= 1)
+L3_high_genes <- subset(res_WPvL3_sig, log2FoldChange <= -1)
+
+nrow(WP_high_genes);nrow(L3_high_genes)
+```
+
+use gprofiler to perform functional enrichment
+
+```{r}
+gores <- gost(query = list(
+  'WP_high' = rownames(WP_high_genes),
+  'L3_high' = rownames(L3_high_genes)), 
+  organism = 'dmelanogaster', 
+  correction_method = 'fdr', 
+  exclude_iea = TRUE, evcodes = TRUE
+)
+gores$result[1:3,]
+
+```
+
+save 
+
+```{r}
+write.csv(gores$result[,-14], file = 'results/pathway_enrichment/PE.csv', row.names = FALSE)
+```
+
+vis
+
+```{r}
+gostplot(gores)
+```
