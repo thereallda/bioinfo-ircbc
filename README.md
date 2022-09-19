@@ -1,3 +1,3 @@
 # bioinfo-ircbc
 
-Code for IRCBC bioinformatic class.
+Code and documents for IRCBC bioinformatic class.
