@@ -76,9 +76,12 @@ nohup bash RNAseq_pipeline.sh -d ~/RNAseq_demo -o ~/RNAseq_demo/results -i ~/RNA
 
 `RNAseq_pipeline.sh` 运行后，可以在服务器直接运行 `DEStream_demo.R` 进行差异基因表达分析, GO富集，及相关可视化
 
+**这里需要激活差异分析的环境 `r_de`**
+
 ```shell
 cp ~/src/DEStream_demo.R src/
 cd src/
+conda activate r_de
 ```
 
 在 `src/` 目录内，运行 `DEStream_demo.R` 
