@@ -92,6 +92,20 @@ conda activate r_de
 Rscript DEStream_demo.R
 ```
 
+> 差异分析、GO富集和可视化用到的R包：
+>
+> ```R
+> install.packages('tidyverse')
+> install.packages('ggrepel')
+> install.packages('paintingr')
+> install.packages('BiocManager')
+> install.packages('dendextend')
+> BiocManager::install('DESeq2')
+> BiocManager::install('ComplexHeatmap')
+> BiocManager::install('clusterProfiler')
+> BiocManager::install('org.Dm.eg.db')
+> ```
+
 
 
 ## output
