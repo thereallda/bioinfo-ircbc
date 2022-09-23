@@ -197,13 +197,13 @@ echo ""
 if [[ ! -d ${OUTDIR}/peak ]]; then mkdir -p ${OUTDIR}/peak; fi
 PEAKLOC=${OUTDIR}/peak
 ## L3 rep1
-macs2 callpeak -t ${ALIGNLOC}/M_L3_rep1_IP_align/M_L3_rep1_IP.sorted.bam -c ${ALIGNLOC}/M_L3_rep1_Input_align/M_L3_rep1_Input.sorted.bam -f BAM -g dm -n L3_rep1 --outdir ${PEAKLOC}/ 2>${PEAKLOC}/L3_rep1_macs2.log
+macs2 callpeak -t ${ALIGNLOC}/L3_rep1_IP_align/L3_rep1_IP.sorted.bam -c ${ALIGNLOC}/L3_rep1_Input_align/L3_rep1_Input.sorted.bam -f BAM -g dm -n L3_rep1 --outdir ${PEAKLOC}/ 2>${PEAKLOC}/L3_rep1_macs2.log
 ## L3 rep2
-macs2 callpeak -t ${ALIGNLOC}/M_L3_rep2_IP_align/M_L3_rep2_IP.sorted.bam -c ${ALIGNLOC}/M_L3_rep2_Input_align/M_L3_rep2_Input.sorted.bam -f BAM -g dm -n L3_rep2 --outdir ${PEAKLOC}/ 2>${PEAKLOC}/L3_rep2_macs2.log
+macs2 callpeak -t ${ALIGNLOC}/L3_rep2_IP_align/L3_rep2_IP.sorted.bam -c ${ALIGNLOC}/L3_rep2_Input_align/L3_rep2_Input.sorted.bam -f BAM -g dm -n L3_rep2 --outdir ${PEAKLOC}/ 2>${PEAKLOC}/L3_rep2_macs2.log
 ## WP rep1
-macs2 callpeak -t ${ALIGNLOC}/M_WP_rep1_IP_align/M_WP_rep1_IP.sorted.bam -c ${ALIGNLOC}/M_WP_rep1_Input_align/M_WP_rep1_Input.sorted.bam -f BAM -g dm -n WP_rep1 --outdir ${PEAKLOC}/ 2>${PEAKLOC}/WP_rep1_macs2.log
+macs2 callpeak -t ${ALIGNLOC}/WP_rep1_IP_align/WP_rep1_IP.sorted.bam -c ${ALIGNLOC}/WP_rep1_Input_align/WP_rep1_Input.sorted.bam -f BAM -g dm -n WP_rep1 --outdir ${PEAKLOC}/ 2>${PEAKLOC}/WP_rep1_macs2.log
 ## WP rep2
-macs2 callpeak -t ${ALIGNLOC}/M_WP_rep2_IP_align/M_WP_rep2_IP.sorted.bam -c ${ALIGNLOC}/M_WP_rep2_Input_align/M_WP_rep2_Input.sorted.bam -f BAM -g dm -n WP_rep2 --outdir ${PEAKLOC}/ 2>${PEAKLOC}/WP_rep2_macs2.log
+macs2 callpeak -t ${ALIGNLOC}/WP_rep2_IP_align/WP_rep2_IP.sorted.bam -c ${ALIGNLOC}/WP_rep2_Input_align/WP_rep2_Input.sorted.bam -f BAM -g dm -n WP_rep2 --outdir ${PEAKLOC}/ 2>${PEAKLOC}/WP_rep2_macs2.log
 
 # extract overlappping peaks between replicates
 ## L3
@@ -217,12 +217,12 @@ echo ""
 if [[ ! -d ${OUTDIR}/vis ]]; then mkdir -p ${OUTDIR}/vis; fi
 VISLOC=${OUTDIR}/vis
 ## L3
-computeMatrix reference-point -S ${ALIGNLOC}/M_L3_rep1_IP_align/M_L3_rep1_IP.bw -R ${PEAKLOC}/L3_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/L3_K4_rep1.tab.gz -p 16
-computeMatrix reference-point -S ${ALIGNLOC}/M_L3_rep2_IP_align/M_L3_rep2_IP.bw -R ${PEAKLOC}/L3_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/L3_K4_rep2.tab.gz -p 16
+computeMatrix reference-point -S ${ALIGNLOC}/L3_rep1_IP_align/L3_rep1_IP.bw -R ${PEAKLOC}/L3_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/L3_K4_rep1.tab.gz -p 16
+computeMatrix reference-point -S ${ALIGNLOC}/L3_rep2_IP_align/L3_rep2_IP.bw -R ${PEAKLOC}/L3_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/L3_K4_rep2.tab.gz -p 16
 plotHeatmap -m ${VISLOC}/L3_K4_rep1.tab.gz -out ${VISLOC}/L3_K4_rep1_Heatmap.png --whatToShow "plot, heatmap and colorbar"
 plotHeatmap -m ${VISLOC}/L3_K4_rep2.tab.gz -out ${VISLOC}/L3_K4_rep2_Heatmap.png --whatToShow "plot, heatmap and colorbar"
 ## WP
-computeMatrix reference-point -S ${ALIGNLOC}/M_WP_rep1_IP_align/M_WP_rep1_IP.bw -R ${PEAKLOC}/WP_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/WP_K4_rep1.tab.gz -p 16
-computeMatrix reference-point -S ${ALIGNLOC}/M_WP_rep2_IP_align/M_WP_rep2_IP.bw -R ${PEAKLOC}/WP_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/WP_K4_rep2.tab.gz -p 16
+computeMatrix reference-point -S ${ALIGNLOC}/WP_rep1_IP_align/WP_rep1_IP.bw -R ${PEAKLOC}/WP_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/WP_K4_rep1.tab.gz -p 16
+computeMatrix reference-point -S ${ALIGNLOC}/WP_rep2_IP_align/WP_rep2_IP.bw -R ${PEAKLOC}/WP_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/WP_K4_rep2.tab.gz -p 16
 plotHeatmap -m ${VISLOC}/WP_K4_rep1.tab.gz -out ${VISLOC}/WP_K4_rep1_Heatmap.png --whatToShow "plot, heatmap and colorbar"
 plotHeatmap -m ${VISLOC}/WP_K4_rep2.tab.gz -out ${VISLOC}/WP_K4_rep2_Heatmap.png --whatToShow "plot, heatmap and colorbar"
