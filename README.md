@@ -137,6 +137,44 @@ r_de                     /share/home/bioinfo/softwares/miniconda3/envs/r_de
 
 
 
+**conda 相关操作命令**
+
+```{shell}
+## 查看已安装命令
+conda list 
+
+## 安装软件到指定环境
+conda install -n envname pkgname
+## or
+conda install --prefix=/path/to/install pkgname
+
+## 安装指定channel的指定版本软件
+conda install -c conda-forge R r=4.0
+
+## 卸载包
+conda uninstall pkgname
+
+## 更新包
+conda update pkgname
+
+## 显示所有的虚拟环境                   
+conda info --envs  
+## or
+conda env list
+
+## 搜索包
+conda search pkgname
+
+## 创建环境
+conda create --name envname
+## 复制环境envname1到envname2
+conda create --name envname2 --clone envname1
+## 删除环境
+conda remove --name envname --all
+```
+
+
+
 ## cheat-sheet
 
 | Command                       | Description                                                  |
