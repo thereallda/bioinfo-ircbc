@@ -22,6 +22,10 @@ drwxrwxr-x 3 bioinfo bioinfo 4096 Sep 11 13:26 softwares
 drwxrwxr-x 2 bioinfo bioinfo 4096 Sep 19 21:46 src
 ```
 
+**命令中所有的`$`只是为了提示该命令是在终端中输入，实际输入时，无需包括`$`符号。**
+
+> `ll`为`ls -l`的别名（alias）
+
 `data`: 包含果蝇发育时期third-stage larvae 3（L3）和white pupa（WP）的RNA-seq和ChIP-seq的两组数据。
 
 ```shell
@@ -52,6 +56,7 @@ data/
 `reference`: 果蝇基因注释文件，参考基因组和相应的index文件
 
 ```shell
+$ tree reference/
 reference/
 └── fly
     ├── annotation
@@ -93,6 +98,7 @@ reference/
 `src`: 脚本和相关源文件存放的目录
 
 ```shell
+$ tree src /
 src
 ├── ChIPseq_pipeline.sh
 ├── ChIPseq_py3.yaml
@@ -106,8 +112,6 @@ src
 
 0 directories, 9 files
 ```
-
-
 
 `softwares`: 软件安装的目录
 
@@ -131,3 +135,37 @@ r_de                     /share/home/bioinfo/softwares/miniconda3/envs/r_de
 
 `r_de`: 使用R进行差异基因表达分析的环境
 
+
+
+## cheat-sheet
+
+| Command                       | Description                                                  |
+| :---------------------------- | :----------------------------------------------------------- |
+| `ls`                          | List all files and directories in the current working directory |
+| `ls -lah`                     | List all files and directories including, hidden files and other information like permissions, size, and owner in human-readable format. |
+| `cd`                          | Change the directory to the home directory (`~`)             |
+| `cd ..`                       | Change the directory to one level up                         |
+| `cat filename`                | Display the content of the file                              |
+| `cat file1 file2 > file3`     | Combine two files named file1 and file2 and store the output in a new file file3 |
+| `tail filename`               | Display the last 10 lines of a file                          |
+| `head filename`               | Display the first 10 lines of a file                         |
+| `mv oldfile newfile`          | Rename a file                                                |
+| `rm filename`                 | Delete a file                                                |
+| `mkdir dirname`               | Create a directory                                           |
+| `mkdir -p parentDir/childDir` | Make parent directories if needed                            |
+| `rm -rf dirname`              | Remove a directory                                           |
+| `history`                     | Print a history list of all commands                         |
+| `clear`                       | Clear the terminal                                           |
+| `hostnamectl`                 | Get system information including, operating system, kernel, and release version |
+| `date`                        | Display the current system date and time                     |
+| `hostname`                    | Display the hostname of the system                           |
+| `ifconfig`                    | Display the IP and Mac Address of the system                 |
+| `w`                           | Display currently logged in users in the system              |
+| `free -m`                     | Display free and used memory in the system                   |
+| `top`                         | Display all running processes                                |
+
+
+
+> For more please check: 
+>
+> https://www.pcwdld.com/linux-commands-cheat-sheet
