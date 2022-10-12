@@ -9,6 +9,8 @@ Code and documents for IRCBC bioinformatic class.
 ssh bioinfo@192.168.221.161
 ```
 
+> 输入密码时不会显示任何字符
+
 在家目录 `/share/home/bioinfo` 中，包括以下目录
 
 ```shell
@@ -50,8 +52,6 @@ data/
 
 2 directories, 14 files
 ```
-
-
 
 `reference`: 果蝇基因注释文件，参考基因组和相应的index文件
 
@@ -116,6 +116,28 @@ src
 `softwares`: 软件安装的目录
 
 
+
+### interactive
+
+**在登陆节点（login）上，不要运行计算任务。**
+
+需要进入cpu节点上进行计算。
+
+```{shell}
+srun --nodes=1 --ntasks-per-node=4 --time=04:00:00 --pty bash -I
+```
+
+- `--nodes=N`: number of nodes on which to run (N = min[-max])
+- `--ntasks-per-node=n ` : number of tasks to invoke on each node
+- `--time=minutes`: time limit
+- `--pty bash`: run task zero in pseudo bash terminal
+- `-I`: exit if resources not available in "secs"
+
+切换成功后，将从login --> cpu02~cpu08. 如果登入的cpu节点被占满，将后延到下一个节点。
+
+![image-20221012164400610](README/image-20221012164400610.png)
+
+> 注意只有login节点能连接网络，而cpu节点不能。如果需要联网下载、安装，则要在login节点内操作。
 
 ## conda environment
 
