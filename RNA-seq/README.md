@@ -4,7 +4,7 @@ RNA-seq 分析脚本在 `~/src/RNAseq_pipeline.sh`
 
 ## set up
 
-在运行之前，务必确认创建好以下目录结构
+在运行之前，务必确认创建好以下目录结构，以下用`RNAseq_demo/`作为演示项目目录
 
 ```{shell}
 mkdir RNAseq_demo
@@ -14,9 +14,10 @@ mkdir results
 mkdir src
 ```
 
-再将示例数据复制在 `data/fastq` 下
+再将示例数据复制到 `data/fastq` 下
 
 ```shell
+# In ~/RNAseq_demo
 cp ~/data/RNA-seq_fly_dev/*gz data/fastq/
 ```
 
@@ -34,6 +35,7 @@ RNAseq_demo/
 再复制分析脚本到 `src/` 
 
 ```shell
+# In ~/RNAseq_demo
 cp ~/src/RNAseq_pipeline.sh src/
 ```
 
@@ -49,13 +51,16 @@ conda activate RNAseq_py3
 
 运行脚本
 
+> 如果你是通过`srun --nodes=1 --ntasks-per-node=4 --time=04:00:00 --pty bash -I`进入cpu节点的话，在运行`RNAseq_pipeline.sh`时，注意使用的线程数 `-t <num_threads>` 不应超过`--ntasks-per-node`所请求的数目（4）。 
+
 ```shell
+# In ~/RNAseq_demo/src
 nohup bash RNAseq_pipeline.sh -d ~/RNAseq_demo -o ~/RNAseq_demo/results -i ~/RNAseq_demo/data --ref ~/reference/fly/index/star_index/dmel_r6.36/ --gtf ~/reference/fly/annotation/dmel-all-r6.36.gtf -t 32 > nohup1.out 2>&1 &
 ```
 
 其中，
 
-`-d`: 你的项目目录的（绝对）路径，例如 `~/RNA-seq_20210923`
+`-d`: 你的项目目录的（绝对）路径，例如 `~/RNAseq_demo`
 
 `-o`: 保存结果的目录
 
@@ -76,19 +81,21 @@ nohup bash RNAseq_pipeline.sh -d ~/RNAseq_demo -o ~/RNAseq_demo/results -i ~/RNA
 
 `RNAseq_pipeline.sh` 运行后，可以在服务器直接运行 `DEStream_demo.R` 进行差异基因表达分析, GO富集，及相关可视化
 
-**这里需要激活差异分析的环境 `r_de`，并将样本信息`metadata.csv`和差异分析信息`contrast.csv`复制到`src/`**
+**这里需要激活差异分析的环境 `r_de`，并将样本信息`metadata.csv`和差异分析信息`contrast.csv`复制到项目目录的`src/`**， 例如这里的 `~/RNAseq_demo/src/`
 
 ```shell
-cp ~/src/DEStream_demo.R src/
-cp ~/src/metadata.csv
-cp ~/src/contrast.csv
-cd src/
+# In ~/RNAseq_demo
+cp ~/src/DEStream_demo.R ~/RNAseq_demo/src/
+cp ~/src/metadata.csv ~/RNAseq_demo/src/
+cp ~/src/contrast.csv ~/RNAseq_demo/src/
+cd ~/RNAseq_demo/src/
 conda activate r_de
 ```
 
 在 `src/` 目录内，运行 `DEStream_demo.R` 
 
 ```shell
+# In ~/RNAseq_demo/src
 Rscript DEStream_demo.R
 ```
 
@@ -110,10 +117,10 @@ Rscript DEStream_demo.R
 
 ## output
 
-运行结束后，在 `results` 目录保存，包括五个目录和样本的表达矩阵`Counts.csv`
+运行结束后，在项目目录的 `results` 目录保存运行结果，包括五个目录和样本的表达矩阵`Counts.csv`
 
 ```shell
-$ ll results/
+$ ll ~/RNAseq_demo/results/
 total 576
 drwxrwxr-x 9 bioinfo bioinfo   4096 Sep 19 14:57 align
 -rw-rw-r-- 1 bioinfo bioinfo 565894 Sep 19 14:57 Counts.csv
@@ -157,7 +164,7 @@ drwxrwxr-x 2 bioinfo bioinfo   4096 Sep 19 14:36 vis
 - vis: 保存可视化结果，具体如下
 
 ```shell
-$ ls -lgh results/vis
+$ ls -lh results/vis
 total 1.4M
 -rw-rw-r-- 1 bioinfo  16K Sep 19 15:37 CorHeatmap.pdf
 -rw-rw-r-- 1 bioinfo 426K Sep 19 15:38 DEG_Heatmap.pdf

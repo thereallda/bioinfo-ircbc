@@ -113,9 +113,9 @@ if $PAIR; then
 		--phred33 \
 		--gzip \
 		-o ${CLEANLOC}/ \
-		--cores 8 \
+		--cores ${THREADS} \
 		--basename ${PREFIX} \
-		--fastqc_args "-o ${OUTDIR}/QC -t 8" \
+		--fastqc_args "-o ${OUTDIR}/QC -t ${THREADS}" \
 		--paired \
 		${FASTQLOC}/${FQ1} ${FASTQLOC}/${FQ2}
 
@@ -131,7 +131,7 @@ if $PAIR; then
 		echo ""
 		echo ">Step03 SAMTOOLS" 
 		echo ""
-		samtools view -@ ${THREADS} -q 30 -f 2 -hSb ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sam |samtools sort - -@ 32 -o ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam
+		samtools view -@ ${THREADS} -q 30 -f 2 -hSb ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sam |samtools sort - -@ ${THREADS} -o ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam -m 500M
 		samtools index ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam
 
 		## bamCoverage -- ../align/{PREFIX}/
@@ -156,9 +156,9 @@ else
 		--phred33 \
 		--gzip \
 		-o ${CLEANLOC}/ \
-		--cores 8 \
+		--cores ${THREADS} \
 		--basename ${PREFIX} \
-		--fastqc_args "-o ${OUTDIR}/QC -t 8" \
+		--fastqc_args "-o ${OUTDIR}/QC -t ${THREADS}" \
 		${FASTQLOC}/${FQ} 
 
 		## Mapping -- ../align/{PREFIX}/
@@ -173,7 +173,7 @@ else
 		echo ""
 		echo ">Step03 SAMTOOLS" 
 		echo ""
-		samtools view -@ ${THREADS} -q 30 -F 4 -hSb ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sam |samtools sort - -@ 32 -o ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam
+		samtools view -@ ${THREADS} -q 30 -F 4 -hSb ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sam |samtools sort - -@ ${THREADS} -o ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam -m 500M
 		samtools index ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam
 
 		## bamCoverage -- ../align/{PREFIX}/
@@ -217,12 +217,12 @@ echo ""
 if [[ ! -d ${OUTDIR}/vis ]]; then mkdir -p ${OUTDIR}/vis; fi
 VISLOC=${OUTDIR}/vis
 ## L3
-computeMatrix reference-point -S ${ALIGNLOC}/L3_rep1_IP_align/L3_rep1_IP.bw -R ${PEAKLOC}/L3_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/L3_K4_rep1.tab.gz -p 16
-computeMatrix reference-point -S ${ALIGNLOC}/L3_rep2_IP_align/L3_rep2_IP.bw -R ${PEAKLOC}/L3_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/L3_K4_rep2.tab.gz -p 16
+computeMatrix reference-point -S ${ALIGNLOC}/L3_rep1_IP_align/L3_rep1_IP.bw -R ${PEAKLOC}/L3_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/L3_K4_rep1.tab.gz -p ${THREADS}
+computeMatrix reference-point -S ${ALIGNLOC}/L3_rep2_IP_align/L3_rep2_IP.bw -R ${PEAKLOC}/L3_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/L3_K4_rep2.tab.gz -p ${THREADS}
 plotHeatmap -m ${VISLOC}/L3_K4_rep1.tab.gz -out ${VISLOC}/L3_K4_rep1_Heatmap.png --whatToShow "plot, heatmap and colorbar"
 plotHeatmap -m ${VISLOC}/L3_K4_rep2.tab.gz -out ${VISLOC}/L3_K4_rep2_Heatmap.png --whatToShow "plot, heatmap and colorbar"
 ## WP
-computeMatrix reference-point -S ${ALIGNLOC}/WP_rep1_IP_align/WP_rep1_IP.bw -R ${PEAKLOC}/WP_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/WP_K4_rep1.tab.gz -p 16
-computeMatrix reference-point -S ${ALIGNLOC}/WP_rep2_IP_align/WP_rep2_IP.bw -R ${PEAKLOC}/WP_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/WP_K4_rep2.tab.gz -p 16
+computeMatrix reference-point -S ${ALIGNLOC}/WP_rep1_IP_align/WP_rep1_IP.bw -R ${PEAKLOC}/WP_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/WP_K4_rep1.tab.gz -p ${THREADS}
+computeMatrix reference-point -S ${ALIGNLOC}/WP_rep2_IP_align/WP_rep2_IP.bw -R ${PEAKLOC}/WP_peaks_final.bed --referencePoint TSS -a 1000 -b 1000 -out ${VISLOC}/WP_K4_rep2.tab.gz -p ${THREADS}
 plotHeatmap -m ${VISLOC}/WP_K4_rep1.tab.gz -out ${VISLOC}/WP_K4_rep1_Heatmap.png --whatToShow "plot, heatmap and colorbar"
 plotHeatmap -m ${VISLOC}/WP_K4_rep2.tab.gz -out ${VISLOC}/WP_K4_rep2_Heatmap.png --whatToShow "plot, heatmap and colorbar"

@@ -4,7 +4,7 @@ ChIP-seq 分析脚本在 `~/src/ChIPseq_pipeline.sh`
 
 ## set up
 
-在运行之前，务必确认创建好以下目录结构
+在运行之前，务必确认创建好以下目录结构，以下用`ChIPseq_demo/`作为演示项目目录
 
 ```{shell}
 mkdir ChIPseq_demo
@@ -17,6 +17,7 @@ mkdir src
 再将示例数据复制在 `data/fastq` 下
 
 ```shell
+# In ~/ChIPseq_demo
 cp ~/data/ChIP-seq_fly_dev/*gz data/fastq/
 ```
 
@@ -34,6 +35,7 @@ ChIPseq_demo/
 再复制分析脚本到 `src/` 
 
 ```shell
+# In ~/ChIPseq_demo
 cp ~/src/ChIPseq_pipeline.sh src/
 ```
 
@@ -49,7 +51,10 @@ conda activate ChIPseq_py3
 
 运行脚本
 
+> 如果你是通过`srun --nodes=1 --ntasks-per-node=4 --time=04:00:00 --pty bash -I`进入cpu节点的话，在运行`RNAseq_pipeline.sh`时，注意使用的线程数 `-t <num_threads>` 不应超过`--ntasks-per-node`所请求的数目（4）。 
+
 ```shell
+# In ~/ChIPseq_demo/src
 nohup bash ChIPseq_pipeline.sh -d ~/ChIPseq_demo -o ~/ChIPseq_demo/results -i ~/ChIPseq_demo/data --ref ~/reference/fly/index/bowtie2_index/dm6.36/genome -t 32 > nohup1.out 2>&1 &
 ```
 
@@ -76,10 +81,10 @@ nohup bash ChIPseq_pipeline.sh -d ~/ChIPseq_demo -o ~/ChIPseq_demo/results -i ~/
 
 ## output
 
-运行结束后，在 `results` 目录保存，包括四个目录
+运行结束后，在项目目录的 `results` 目录保存运行结果，包括四个目录
 
 ```shell
-$ ll results/
+$ ll ~/ChIPseq_demo/results/
 total 0
 drwxrwxr-x 8 bioinfo bioinfo 4096 Sep 19 21:21 align
 drwxrwxr-x 2 bioinfo bioinfo 4096 Sep 19 20:57 peak

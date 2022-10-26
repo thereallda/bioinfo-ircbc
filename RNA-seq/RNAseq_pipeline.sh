@@ -117,9 +117,9 @@ if $PAIR; then
 		--phred33 \
 		--gzip \
 		-o ${CLEANLOC}/ \
-		--cores 8 \
+		--cores ${THREADS} \
 		--basename ${PREFIX} \
-		--fastqc_args "-o ${OUTDIR}/QC -t 8" \
+		--fastqc_args "-o ${OUTDIR}/QC -t ${THREADS}" \
 		--paired \
 		${FASTQLOC}/${FQ1} ${FASTQLOC}/${FQ2}
 
@@ -140,7 +140,7 @@ if $PAIR; then
 		echo ""
 		echo ">Step03 SAMTOOLS" 
 		echo ""
-		samtools view -@ ${THREADS} -q 30 -f 2 -hSb ${ALIGNLOC}/${PREFIX}_align/Aligned.out.sam |samtools sort - -@ 32 -o ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam
+		samtools view -@ ${THREADS} -q 30 -f 2 -hSb ${ALIGNLOC}/${PREFIX}_align/Aligned.out.sam |samtools sort - -@ ${THREADS} -o ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam -m 500M
 		samtools index ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam
 
 		## featureCounts -- ${OUTDIR}/featurecounts
@@ -171,9 +171,9 @@ else
 		--phred33 \
 		--gzip \
 		-o ${CLEANLOC}/ \
-		--cores 8 \
+		--cores ${THREADS} \
 		--basename ${PREFIX} \
-		--fastqc_args "-o ${OUTDIR}/QC -t 8" \
+		--fastqc_args "-o ${OUTDIR}/QC -t ${THREADS}" \
 		${FASTQLOC}/${FQ} 
 
 		## Mapping -- ../align/{PREFIX}/
@@ -193,7 +193,7 @@ else
 		echo ""
 		echo ">Step03 SAMTOOLS" 
 		echo ""
-		samtools view -@ ${THREADS} -q 30 -F 4 -hSb ${ALIGNLOC}/${PREFIX}_align/Aligned.out.sam |samtools sort - -@ 32 -o ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam
+		samtools view -@ ${THREADS} -q 30 -F 4 -hSb ${ALIGNLOC}/${PREFIX}_align/Aligned.out.sam |samtools sort - -@ ${THREADS} -o ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam -m 500M
 		samtools index ${ALIGNLOC}/${PREFIX}_align/${PREFIX}.sorted.bam
 
 		## featureCounts -- ${OUTDIR}/featurecounts
